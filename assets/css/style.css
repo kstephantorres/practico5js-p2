@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+label{
+    width: 35vw;
+}
+
+button{
+    margin-bottom: 20px;
+    margin-left: 2px;
+    margin-right:2px ;
+}
+main{
+    margin: 0 5px;
+    flex-grow:1;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
