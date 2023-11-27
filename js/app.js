@@ -8,10 +8,10 @@ class Persona{
     #nacimiento
     #generacion
     
-    constructor(nombre,edad,sexo,peso,altura,nacimiento,generaciones){
+    constructor(nombre,edad,dni,sexo,peso,altura,nacimiento,generaciones){
         this.#nombre = nombre;
         this.#edad = edad;
-        this.#dni = this.generarDni();
+        this.#dni = dni;
         this.#sexo = sexo;
         this.#peso = peso;
         this.#altura = altura;
@@ -120,9 +120,6 @@ class Persona{
         \nGENERACIÓN: ${this.generacion.mostrarDatos()} 
         `
     }
-    generarDni(){
-        return Math.floor(Math.random() * 90000000) + 10000000;
-    }
 }
 
 class Generacion{
@@ -194,3 +191,50 @@ const generacionBB = new Generacion('Baby Boom',1949,1968,12200000,'Paz y explos
 const generacionSG = new Generacion('Silent Generation (Los niños de la posguerra)',1930,1948,6300000,'Conflictos bélicos','Austeridad 😐')
 
 const generaciones = [generacionZ,generacionY,generacionX,generacionBB,generacionSG]
+
+let persona = null
+const formulario = document.querySelector('form')
+const btnMostrarDatos = document.querySelector('.btn-primary')
+const btnMayor = document.querySelector('.btn-secondary')
+
+const inputNombre = document.getElementById('inputNombre')
+const inputEdad = document.getElementById('inputEdad')
+const inputDni = document.getElementById('inputDni')
+
+const inputsGenero = document.getElementsByName('genero')
+// console.log(inputsGenero)
+
+const inputPeso = document.getElementById('inputPeso')
+const inputAltura = document.getElementById('inputAltura')
+const inputNacimiento = document.getElementById('inputNacimiento')
+
+formulario.addEventListener('submit',(event)=>{
+    event.preventDefault()
+    // const persona1 = new Persona('Kevin',30,'M',89,170,1993,generaciones)
+    const nombre = inputNombre.value
+    const edad = inputEdad.value
+    const dni = inputDni.value
+
+    // primera version
+    // const genero = (()=>{
+    //     for(input of inputsGenero){
+    //         if(input.checked) 
+    //             return input.value
+    //     }
+    // } )()  
+    
+    // segunda version
+    const genero = Array.from(inputsGenero).find(input => input.checked)?.value
+
+    const peso = inputPeso.value
+    const altura = inputAltura.value
+    const nacimiento = inputNacimiento.value
+    persona = new Persona(nombre,edad,dni,genero,peso,altura,nacimiento,generaciones)
+
+    Array.from(document.querySelectorAll('input')).forEach(input => input.disabled=true)
+    btnMostrarDatos.disabled = false
+    btnMayor.disabled = false
+    event.target.querySelector('button[type=submit]').innerText = 'Nuevo'
+
+})
+
