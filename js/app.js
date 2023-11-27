@@ -8,10 +8,10 @@ class Persona{
     #nacimiento
     #generacion
     
-    constructor(nombre,edad,sexo,peso,altura,nacimiento,generaciones){
+    constructor(nombre,edad,dni,sexo,peso,altura,nacimiento,generaciones){
         this.#nombre = nombre;
         this.#edad = edad;
-        this.#dni = this.generarDni();
+        this.#dni = dni;
         this.#sexo = sexo;
         this.#peso = peso;
         this.#altura = altura;
@@ -120,9 +120,6 @@ class Persona{
         \nGENERACIÓN: ${this.generacion.mostrarDatos()} 
         `
     }
-    generarDni(){
-        return Math.floor(Math.random() * 90000000) + 10000000;
-    }
 }
 
 class Generacion{
@@ -194,3 +191,85 @@ const generacionBB = new Generacion('Baby Boom',1949,1968,12200000,'Paz y explos
 const generacionSG = new Generacion('Silent Generation (Los niños de la posguerra)',1930,1948,6300000,'Conflictos bélicos','Austeridad 😐')
 
 const generaciones = [generacionZ,generacionY,generacionX,generacionBB,generacionSG]
+
+let persona = null
+const formulario = document.querySelector('form')
+const btnMostrarDatos = document.querySelector('.btn-primary')
+const btnMayor = document.querySelector('.btn-secondary')
+
+const inputNombre = document.getElementById('inputNombre')
+const inputEdad = document.getElementById('inputEdad')
+const inputDni = document.getElementById('inputDni')
+
+const inputsGenero = document.getElementsByName('genero')
+// console.log(inputsGenero)
+
+const inputPeso = document.getElementById('inputPeso')
+const inputAltura = document.getElementById('inputAltura')
+const inputNacimiento = document.getElementById('inputNacimiento')
+
+inputEdad.addEventListener('change',()=>{
+    const anio = new Date().getFullYear() 
+    const edad = inputEdad.value
+    if ( edad && edad>=13 && edad<=93){
+        inputNacimiento.value = anio - edad
+    }
+})
+
+
+
+formulario.addEventListener('submit',(event)=>{
+    event.preventDefault()
+    const boton = event.target.querySelector('button[type=submit]')
+    const inputs = document.querySelectorAll('input')
+    if(boton.innerText == 'Crear')
+    {
+        // const persona = new Persona('Kevin',30,'M',89,170,1993,generaciones)
+        const nombre = inputNombre.value
+        const edad = inputEdad.value
+        const dni = inputDni.value
+
+        // primera version
+        // const genero = (()=>{
+        //     console.log('generos: ',inputsGenero)
+        //     for(input of inputsGenero){
+        //         console.log('checked: ',input.checked, 'value: ',input.value)
+        //         if(input.checked) 
+        //             return input.value
+        //     }
+        // } )()  
+        
+        // segunda version
+        const genero = Array.from(inputsGenero).find(input => input.checked)?.value
+
+        const peso = inputPeso.value
+        const altura = inputAltura.value
+        const nacimiento = inputNacimiento.value
+        persona = new Persona(nombre,edad,dni,genero,peso,altura,nacimiento,generaciones)
+
+        Array.from(inputs).forEach(input => input.disabled=true)
+        btnMostrarDatos.disabled = false
+        btnMayor.disabled = false
+        boton.innerText = 'Nuevo'
+    }else{
+        boton.innerText = 'Crear'
+        btnMostrarDatos.disabled = true
+        btnMayor.disabled = true
+        Array.from(inputs).forEach(input => {
+            if(input.id !== 'inputNacimiento') 
+            input.disabled=false
+            })
+        Array.from(inputs).forEach(input => {
+            if(input.type !== 'radio') 
+            input.value=''
+            })
+    }
+})
+
+btnMostrarDatos.addEventListener('click',()=>{
+    alert(persona.mostrarGeneracion())
+})
+
+btnMayor.addEventListener('click',()=>{
+    alert(persona.esMayorDeEdad())
+})
