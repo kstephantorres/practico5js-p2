@@ -208,13 +208,23 @@ const inputPeso = document.getElementById('inputPeso')
 const inputAltura = document.getElementById('inputAltura')
 const inputNacimiento = document.getElementById('inputNacimiento')
 
+inputEdad.addEventListener('change',()=>{
+    const anio = new Date().getFullYear() 
+    const edad = inputEdad.value
+    if ( edad && edad>=13 && edad<=93){
+        inputNacimiento.value = anio - edad
+    }
+})
+
+
+
 formulario.addEventListener('submit',(event)=>{
     event.preventDefault()
     const boton = event.target.querySelector('button[type=submit]')
     const inputs = document.querySelectorAll('input')
     if(boton.innerText == 'Crear')
     {
-        // const persona1 = new Persona('Kevin',30,'M',89,170,1993,generaciones)
+        // const persona = new Persona('Kevin',30,'M',89,170,1993,generaciones)
         const nombre = inputNombre.value
         const edad = inputEdad.value
         const dni = inputDni.value
@@ -245,11 +255,14 @@ formulario.addEventListener('submit',(event)=>{
         boton.innerText = 'Crear'
         btnMostrarDatos.disabled = true
         btnMayor.disabled = true
-        Array.from(inputs).forEach(input => input.disabled=false)
+        Array.from(inputs).forEach(input => {
+            if(input.id !== 'inputNacimiento') 
+            input.disabled=false
+            })
         Array.from(inputs).forEach(input => {
             if(input.type !== 'radio') 
             input.value=''
-        })
+            })
     }
 })
 
