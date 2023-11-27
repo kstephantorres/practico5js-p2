@@ -22,3 +22,50 @@ body{
     flex-direction: column;
     min-height: 100vh;
 }
+
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 85vw;
+    margin: 0 auto;
+  }
+
+  label {
+    font-weight: bold;
+  }
+  #radioHombre, #radioMujer{
+    width: auto;
+  }
+
+  input {
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 470px) {
+    input[type="text"],
+    input[type="number"],
+    button {
+      width: 100%;
+    }
+
+
+  }
+  @media (min-width: 471px) {
+    input[type="text"],
+    input[type="number"],
+    button {
+      width: 250px;
+    }
+
+    form{
+        width: 85vw;
+    }
+
+
+  }
