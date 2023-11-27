@@ -210,31 +210,53 @@ const inputNacimiento = document.getElementById('inputNacimiento')
 
 formulario.addEventListener('submit',(event)=>{
     event.preventDefault()
-    // const persona1 = new Persona('Kevin',30,'M',89,170,1993,generaciones)
-    const nombre = inputNombre.value
-    const edad = inputEdad.value
-    const dni = inputDni.value
+    const boton = event.target.querySelector('button[type=submit]')
+    const inputs = document.querySelectorAll('input')
+    if(boton.innerText == 'Crear')
+    {
+        // const persona1 = new Persona('Kevin',30,'M',89,170,1993,generaciones)
+        const nombre = inputNombre.value
+        const edad = inputEdad.value
+        const dni = inputDni.value
 
-    // primera version
-    // const genero = (()=>{
-    //     for(input of inputsGenero){
-    //         if(input.checked) 
-    //             return input.value
-    //     }
-    // } )()  
-    
-    // segunda version
-    const genero = Array.from(inputsGenero).find(input => input.checked)?.value
+        // primera version
+        // const genero = (()=>{
+        //     console.log('generos: ',inputsGenero)
+        //     for(input of inputsGenero){
+        //         console.log('checked: ',input.checked, 'value: ',input.value)
+        //         if(input.checked) 
+        //             return input.value
+        //     }
+        // } )()  
+        
+        // segunda version
+        const genero = Array.from(inputsGenero).find(input => input.checked)?.value
 
-    const peso = inputPeso.value
-    const altura = inputAltura.value
-    const nacimiento = inputNacimiento.value
-    persona = new Persona(nombre,edad,dni,genero,peso,altura,nacimiento,generaciones)
+        const peso = inputPeso.value
+        const altura = inputAltura.value
+        const nacimiento = inputNacimiento.value
+        persona = new Persona(nombre,edad,dni,genero,peso,altura,nacimiento,generaciones)
 
-    Array.from(document.querySelectorAll('input')).forEach(input => input.disabled=true)
-    btnMostrarDatos.disabled = false
-    btnMayor.disabled = false
-    event.target.querySelector('button[type=submit]').innerText = 'Nuevo'
-
+        Array.from(inputs).forEach(input => input.disabled=true)
+        btnMostrarDatos.disabled = false
+        btnMayor.disabled = false
+        boton.innerText = 'Nuevo'
+    }else{
+        boton.innerText = 'Crear'
+        btnMostrarDatos.disabled = true
+        btnMayor.disabled = true
+        Array.from(inputs).forEach(input => input.disabled=false)
+        Array.from(inputs).forEach(input => {
+            if(input.type !== 'radio') 
+            input.value=''
+        })
+    }
 })
 
+btnMostrarDatos.addEventListener('click',()=>{
+    alert(persona.mostrarGeneracion())
+})
+
+btnMayor.addEventListener('click',()=>{
+    alert(persona.esMayorDeEdad())
+})
